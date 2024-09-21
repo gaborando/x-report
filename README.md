@@ -26,13 +26,13 @@ pip install x-report
 import pandas as pd
 
 # Import necessary classes for the data pipeline and stages
-from src import DataPipeline
-from src import ExpandStage
-from src import FilterStage
-from src import MapStage
-from src import ProjectionStage
-from src import RenameStage
-from src import SourceStage
+from xreport.pipeline import DataPipeline
+from xreport.stages.expand_stage import ExpandStage
+from xreport.stages.filter_stage import FilterStage
+from xreport.stages.map_stage import MapStage
+from xreport.stages.projection_stage import ProjectionStage
+from xreport.stages.rename_stage import RenameStage
+from xreport.stages.source_stage import SourceStage
 
 
 # Function to create a DataFrame mapping cities to their states and postal codes
