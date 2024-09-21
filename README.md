@@ -33,7 +33,7 @@ from xreport.stages.map_stage import MapStage
 from xreport.stages.projection_stage import ProjectionStage
 from xreport.stages.rename_stage import RenameStage
 from xreport.stages.source_stage import SourceStage
-
+from xreport.stages.groupby_stage import GroupByStage  # Import GroupByStage
 
 # Function to create a DataFrame mapping cities to their states and postal codes
 def get_state_and_postal_code_df(cities_df):
@@ -42,7 +42,6 @@ def get_state_and_postal_code_df(cities_df):
         'State': ['California', 'Illinois', 'Texas'],
         'PostalCode': ['90001', '60601', '77001']
     })
-
 
 # Function to map cities to their respective countries
 def map_city_to_country(city):
@@ -53,8 +52,7 @@ def map_city_to_country(city):
         'New York': 'USA',
         'Miami': 'USA'
     }
-    return mapping.get(city, 'Unknown')  # Return 'Unknown' if city is not in the mapping
-
+    return mapping.get(city, 'Unknown')
 
 # Function to categorize age into groups
 def age_category(age):
@@ -65,23 +63,23 @@ def age_category(age):
     else:
         return 'Senior'
 
-
-# Sample DataFrame creation with names, ages, sexes, and cities
+# Sample DataFrame creation with names, ages, sexes, cities, and salaries
 data = pd.DataFrame({
     'name': ['Alice', 'Bob', 'Charlie', 'David', 'Nobody'],
     'age': [25, 30, 35, 40, 31],
     'sex': ['F', 'M', 'U', 'X', 'Y'],
-    'city': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Kreta']
+    'city': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Kreta'],
+    'salary': [70000, 80000, 75000, 90000, 60000]  # Adding salary column
 })
 
 # Define the DataPipeline instance with a source stage containing the sample data
 pipeline = DataPipeline(
-    'Sample Pipeline',  # Name of the pipeline
-    'This is a sample data pipeline',  # Description of the pipeline
+    'Sample Pipeline',
+    'This is a sample data pipeline',
     SourceStage(
-        "Source Data",  # Stage name
-        "Initial DataFrame input",  # Description of the source stage
-        data  # Initial DataFrame
+        "Source Data",
+        "Initial DataFrame input",
+        data
     )
 )
 
@@ -101,7 +99,7 @@ pipeline.add_stage(
     ProjectionStage(
         'Select Name and City',
         'Keep only name and city columns',
-        ['name', 'city', 'age']  # Columns to keep
+        ['name', 'city', 'age', 'salary']  # Include salary in projection
     )
 )
 
@@ -110,7 +108,7 @@ pipeline.add_stage(
     RenameStage(
         "Rename Name Column",
         "Renaming Name to Full Name",
-        {'name': 'Full Name', 'city': 'City', 'age': 'Age'}  # Renaming mapping
+        {'name': 'Full Name', 'city': 'City', 'age': 'Age', 'salary': 'Salary'}
     )
 )
 
@@ -119,16 +117,16 @@ pipeline.add_stage(
     ExpandStage(
         "Expand State Information",
         "Adding State information for each City",
-        join_columns=['City'],  # Column to join on
-        lambda_func=get_state_and_postal_code_df  # Function to provide state info
+        join_columns=['City'],
+        lambda_func=get_state_and_postal_code_df
     )
 )
 
 # Add a filtering stage to drop rows with unknown states
 pipeline.add_stage(FilterStage(
-    'Drop Unknown state',
-    'Filter only in state is found', {
-        'state_ok': lambda df: df['State'].notnull() & (df['State'] != ''),  # Condition to filter out unknown states
+    'Drop Unknown State',
+    'Filter only if state is found', {
+        'state_ok': lambda df: df['State'].notnull() & (df['State'] != ''),
     }
 ))
 
@@ -137,12 +135,26 @@ pipeline.add_stage(
     MapStage(
         "Map City to Country and Age Category",
         "Mapping City names to their countries and categorizing ages",
-        {'City': map_city_to_country, 'Age': age_category}  # Mapping functions
+        {'City': map_city_to_country, 'Age': age_category}
+    )
+)
+
+# Add a group by stage to calculate the average salary for each unique salary value
+pipeline.add_stage(
+    GroupByStage(
+        "Group By Salary",
+        "Calculating average salary for each unique salary",
+        group_by_columns=['City','Age'],  # Column to group by
+        agg_funcs={'Salary': 'sum'}  # Count the number of entries for each salary
     )
 )
 
 # Run the pipeline and store the resulting DataFrame
 result_df = pipeline.run()
+
+# Display the resulting DataFrame
+print(result_df)
+
 
 
 ```
