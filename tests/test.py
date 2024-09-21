@@ -8,8 +8,7 @@ from src.stages.filter_stage import FilterStage
 from src.stages.map_stage import MapStage
 from src.stages.projection_stage import ProjectionStage
 from src.stages.rename_stage import RenameStage
-
-
+from src.stages.source_stage import SourceStage
 
 
 def get_state_and_postal_code_df(cities_df):
@@ -48,8 +47,10 @@ data = pd.DataFrame({
 
 
 
+
 # Define Pipeline
-pipeline = DataPipeline('Sample Pipeline', 'This is a sample data pipeline', data)
+pipeline = DataPipeline('Sample Pipeline', 'This is a sample data pipeline',
+                        SourceStage("Source Data", "Initial DataFrame input", data))
 
 # Add stages
 pipeline.add_stage(FilterStage('Age Filter', 'Filter age between 30 and 35 years old', {

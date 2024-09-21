@@ -1,19 +1,21 @@
+import pandas as pd
+
 from src.report import generate_html_report
+from src.stages.source_stage import SourceStage
 
 
 class DataPipeline:
-    def __init__(self, name, description, input_df):
+    def __init__(self, name, description, source_stage: SourceStage):
         self.name = name
         self.description = description
-        self.stages = []
-        self.input_df = input_df
+        self.stages = [source_stage]
         self.report = []
 
     def add_stage(self, stage):
         self.stages.append(stage)
 
     def run(self):
-        current_df = self.input_df.copy()
+        current_df = pd.DataFrame()
 
         for stage in self.stages:
             stage.execution_time = 0  # Placeholder for execution time (you can implement timing)
