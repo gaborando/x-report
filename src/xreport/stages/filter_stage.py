@@ -1,3 +1,5 @@
+import pandas as pd
+
 from xreport.stages.base_stage import BaseStage
 
 
@@ -10,6 +12,7 @@ class FilterStage(BaseStage):
         self.computation_df = df.copy()  # Start with the input DataFrame
 
         # Apply each condition and create columns in computation_df
+        self.computation_df['#'] = pd.DataFrame({'#': ['#'] * len(df)})
         for cond_name, cond_func in self.conditions.items():
             self.computation_df[cond_name] = cond_func(df)
 

@@ -30,8 +30,8 @@ class DataPipeline:
                 'stage_type': stage.__class__.__name__,  # Add stage type here
                 'stage_name': stage.name,
                 'description': stage.description,
-                'input_shape': stage.input_df.shape,
-                'output_shape': stage.output_df.shape,
+                'input_shape': list(stage.input_df.shape),
+                'output_shape': list(stage.output_df.shape),
                 'execution_time': execution_time,
                 'computation_data': stage.computation_df.to_csv(index=False, quoting=csv.QUOTE_NONNUMERIC),
                 'output_data': stage.output_df.to_csv(index=False, quoting=csv.QUOTE_NONNUMERIC),

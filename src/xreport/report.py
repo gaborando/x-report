@@ -247,6 +247,9 @@ ${(stage.execution_time).toFixed(3)}&nbsp;sec
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
+    <ion-text>
+        <p>${stage.description}</p>
+    </ion-text>
    <ion-segment class="ion-margin-bottom" value="${stage.stage_type === 'SourceStage' ? 'output' : 'computed'}" id="stage_modal_segment_${stage.stage_number}">
       <ion-segment-button value="computed">
         <ion-label>Computed</ion-label>
