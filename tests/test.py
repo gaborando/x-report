@@ -1,8 +1,4 @@
-# Example script
-import json
-
 import pandas as pd
-from pandas.io.formats.format import return_docstring
 
 from src.pipeline import DataPipeline
 from src.stages.expand_stage import ExpandStage
@@ -47,31 +43,48 @@ data = pd.DataFrame({
     'city': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Kreta']
 })
 
-
-
-
 # Define Pipeline
-pipeline = DataPipeline('Sample Pipeline', 'This is a sample data pipeline',
-                        SourceStage("Source Data", "Initial DataFrame input", data))
+pipeline = DataPipeline(
+    'Sample Pipeline',
+    'This is a sample data pipeline',
+    SourceStage(
+        "Source Data",
+        "Initial DataFrame input", data))
 
 # Add stages
-pipeline.add_stage(FilterStage('Age Filter', 'Filter age between 30 and 35 years old', {
+pipeline.add_stage(
+    FilterStage(
+        'Age Filter',
+        'Filter age between 30 and 35 years old', {
     'age_gt_30_check': lambda df: df['age'] >= 30,
     'age_lt_35_check': lambda df: df['age'] <= 35,
-
 }))
-pipeline.add_stage(ProjectionStage('Select Name and City', 'Keep only name and city columns', ['name', 'city', 'age']))
-pipeline.add_stage(RenameStage("Rename Name Column", "Renaming Name to FirstName", {'name': 'Full Name', 'city': 'City', 'age': 'Age'}))
-pipeline.add_stage(ExpandStage("Expand State Information", "Adding State information for each City",
+pipeline.add_stage(
+    ProjectionStage(
+        'Select Name and City',
+        'Keep only name and city columns',
+        ['name', 'city', 'age']))
+pipeline.add_stage(
+    RenameStage(
+        "Rename Name Column",
+        "Renaming Name to FirstName",
+        {'name': 'Full Name', 'city': 'City', 'age': 'Age'}))
+pipeline.add_stage(
+    ExpandStage("Expand State Information",
+                "Adding State information for each City",
                                join_columns=['City'],
                                lambda_func=get_state_and_postal_code_df))
-pipeline.add_stage(FilterStage('Drop Unknown state', 'Filter only in state is found', {
+pipeline.add_stage(FilterStage(
+    'Drop Unknown state',
+    'Filter only in state is found', {
     'state_ok': lambda df: df['State'].notnull() & (df['State'] != ''),
 
 }))
-pipeline.add_stage(MapStage("Map City to Country and Age Category",
-                     "Mapping City names to their countries and categorizing ages",
-                     {'City': map_city_to_country, 'Age': age_category}))
+pipeline.add_stage(
+    MapStage(
+        "Map City to Country and Age Category",
+        "Mapping City names to their countries and categorizing ages",
+        {'City': map_city_to_country, 'Age': age_category}))
 
 # Run pipeline
 result_df = pipeline.run()

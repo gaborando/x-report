@@ -8,7 +8,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Gabor Galazzo",
     author_email="gabor.galazzo@gmail.com",
-    url="https://github.com/username/my-library",  # Project URL
+    url="https://github.com/gaborando/x-report",  # Project URL
     packages=find_packages(where="src"),           # Find packages in src
     package_dir={"": "src"},                       # Tell setuptools where to look for the packages
     classifiers=[
@@ -17,4 +17,8 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",  # Specify minimum Python version
+    install_requires=[
+        "pandas",
+        "jinja2"
+    ],
 )
