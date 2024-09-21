@@ -1,4 +1,6 @@
 # Example script
+import json
+
 import pandas as pd
 from pandas.io.formats.format import return_docstring
 
