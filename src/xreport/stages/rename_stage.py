@@ -1,5 +1,5 @@
-import pandas as pd
-from src.stages.base_stage import BaseStage
+from xreport.stages.base_stage import BaseStage
+
 
 class RenameStage(BaseStage):
     def __init__(self, name, description, rename_dict):

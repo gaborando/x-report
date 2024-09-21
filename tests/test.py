@@ -1,12 +1,12 @@
 import pandas as pd
 
-from src.pipeline import DataPipeline
-from src.stages.expand_stage import ExpandStage
-from src.stages.filter_stage import FilterStage
-from src.stages.map_stage import MapStage
-from src.stages.projection_stage import ProjectionStage
-from src.stages.rename_stage import RenameStage
-from src.stages.source_stage import SourceStage
+from xreport.pipeline import DataPipeline
+from xreport.stages.expand_stage import ExpandStage
+from xreport.stages.filter_stage import FilterStage
+from xreport.stages.map_stage import MapStage
+from xreport.stages.projection_stage import ProjectionStage
+from xreport.stages.rename_stage import RenameStage
+from xreport.stages.source_stage import SourceStage
 
 
 def get_state_and_postal_code_df(cities_df):

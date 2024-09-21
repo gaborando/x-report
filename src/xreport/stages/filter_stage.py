@@ -1,4 +1,4 @@
-from src.stages.base_stage import BaseStage
+from xreport.stages.base_stage import BaseStage
 
 
 class FilterStage(BaseStage):

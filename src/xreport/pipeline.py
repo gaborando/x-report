@@ -4,8 +4,8 @@ from datetime import datetime
 
 import pandas as pd
 
-from src.report import generate_html_report
-from src.stages.source_stage import SourceStage
+from xreport.report import generate_html_report
+from xreport.stages.source_stage import SourceStage
 
 
 class DataPipeline:

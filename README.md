@@ -26,21 +26,23 @@ pip install x-report
 import pandas as pd
 
 # Import necessary classes for the data pipeline and stages
-from src.pipeline import DataPipeline
-from src.stages.expand_stage import ExpandStage
-from src.stages.filter_stage import FilterStage
-from src.stages.map_stage import MapStage
-from src.stages.projection_stage import ProjectionStage
-from src.stages.rename_stage import RenameStage
-from src.stages.source_stage import SourceStage
+from src import DataPipeline
+from src import ExpandStage
+from src import FilterStage
+from src import MapStage
+from src import ProjectionStage
+from src import RenameStage
+from src import SourceStage
+
 
 # Function to create a DataFrame mapping cities to their states and postal codes
 def get_state_and_postal_code_df(cities_df):
     return pd.DataFrame({
         'City': ['Los Angeles', 'Chicago', 'Houston'],
         'State': ['California', 'Illinois', 'Texas'],
-        'PostalCode': ['90001','60601','77001']
+        'PostalCode': ['90001', '60601', '77001']
     })
+
 
 # Function to map cities to their respective countries
 def map_city_to_country(city):
@@ -53,6 +55,7 @@ def map_city_to_country(city):
     }
     return mapping.get(city, 'Unknown')  # Return 'Unknown' if city is not in the mapping
 
+
 # Function to categorize age into groups
 def age_category(age):
     if age < 30:
@@ -62,11 +65,12 @@ def age_category(age):
     else:
         return 'Senior'
 
+
 # Sample DataFrame creation with names, ages, sexes, and cities
 data = pd.DataFrame({
     'name': ['Alice', 'Bob', 'Charlie', 'David', 'Nobody'],
     'age': [25, 30, 35, 40, 31],
-    'sex': ['F','M','U','X','Y'],
+    'sex': ['F', 'M', 'U', 'X', 'Y'],
     'city': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Kreta']
 })
 
