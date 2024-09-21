@@ -82,6 +82,11 @@ def generate_html_report(pipeline):
                 name: 'Expand',
                 icon: "expand",
                 color: 'tertiary'
+            },
+            'GroupByStage': {
+                name: 'GroupBy',
+                icon: "grid",
+                color: 'warning'
             }
         }
 
