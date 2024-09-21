@@ -173,7 +173,7 @@ with open('report.html', 'w') as file:
 
 The output of the pipeline can be found in the test directory. You can view the generated report by opening the following link:
 
-[View Output Report](test/index.html)
+[View Output Report](https://github.com/gaborando/x-report/blob/main/tests/index.html)
 
 
 
