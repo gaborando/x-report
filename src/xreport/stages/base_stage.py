@@ -1,5 +1,23 @@
 class BaseStage:
+    """
+    BaseStage represents a base class for data processing stages in a pipeline.
+
+    Methods
+    -------
+    __init__(self, name, description)
+        Initializes the base stage with a name and description.
+
+    execute(self, df)
+        Executes the stage by copying the input DataFrame and invoking the stage-specific processing method.
+
+    _process_stage(self, df)
+        Placeholder method for stage-specific processing logic to be implemented by subclasses.
+    """
     def __init__(self, name, description):
+        """
+        :param name: The name of the instance.
+        :param description: A brief description of the instance.
+        """
         self.name = name
         self.description = description
         self.input_df = None

@@ -28,10 +28,10 @@ def generate_html_report(pipeline):
     <ion-header>
         <ion-toolbar>
             <ion-title>
-                {{pipeline.name}}
+                {{pipeline.name}} 
             </ion-title>
             <ion-title slot="end">
-                {{pipeline.timestamp}}
+                {% if pipeline.error %} <ion-chip color="danger">Failed</ion-chip> {% else %} <ion-chip color="success">Success</ion-chip> {% endif %}&nbsp;{{pipeline.timestamp}}
             </ion-title>
         </ion-toolbar>
     </ion-header>
@@ -213,13 +213,30 @@ def generate_html_report(pipeline):
         // Export the workbook to an Excel file
         XLSX.writeFile(workbook, `${data.name}-${stage.stage_number}-${stage.stage_name}.xlsx`);
     }
+    
+    function errorBreak(stage){
+        if(stage.status === 'ERROR'){
+            return `<ion-col size='12'>
+                        <ion-card>
+                            <ion-card-content>
+                                <h2>Type:  ${data.error.type}</h2>
+                                <h1>Message: ${data.error.message}</h1>
+                                <pre> ${data.error.traceback}</pre>
+                               
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-col>`
+        }
+        return "";
+              
+    }
 
 
-    const data = {{pipeline}}
+    const data = {{pipeline|tojson|safe}}
     console.log(data)
 
     document.getElementById("container").innerHTML = data.pipeline.map((stage) =>
-        `<ion-col size="6"><ion-card style="margin: 0" id="stage_card_${stage.stage_number}">
+        `<ion-col size="${stage.status === 'ERROR' ? '12' : '6'}"><ion-card style="margin: 0" id="stage_card_${stage.stage_number}" disabled="${stage.status === 'NOT_DONE'}" color="${stage.status === 'ERROR' ? 'danger' : ''}">
 <ion-card-content>
 <ion-grid>
 <ion-row>
@@ -242,6 +259,7 @@ ${(stage.execution_time).toFixed(3)}&nbsp;sec
 </ion-grid>
 </ion-card-content>
 </ion-card></ion-col>
+${errorBreak(stage)}
 <ion-modal trigger="stage_card_${stage.stage_number}" id="stage_modal_${stage.stage_number}">
 <ion-header>
       <ion-toolbar>

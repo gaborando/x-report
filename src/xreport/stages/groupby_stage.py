@@ -2,6 +2,28 @@ import pandas as pd
 from .base_stage import BaseStage
 
 class GroupByStage(BaseStage):
+    """
+    class GroupByStage(BaseStage):
+
+    :param name: Stage name
+    :param description: Stage description
+    :param group_by_columns: List of columns to group by
+    :param agg_funcs: Dictionary where the key is the column name and the value is the aggregation function
+
+    def execute(self, input_df):
+
+    :param input_df: DataFrame to be processed
+
+    :returns: Aggregated DataFrame after performing group by and aggregation operations
+
+    This method performs the following steps:
+    1. Sets the input DataFrame.
+    2. Groups the input DataFrame by the specified columns.
+    3. Aggregates the grouped data using the specified aggregation functions.
+    4. Sorts the input DataFrame by the group-by columns.
+    5. Constructs a computation DataFrame by appending aggregation rows to each group's data.
+    6. Sets the computation and output DataFrames.
+    """
     def __init__(self, name, description, group_by_columns, agg_funcs):
         """
         :param name: Stage name
@@ -14,6 +36,10 @@ class GroupByStage(BaseStage):
         self.agg_funcs = agg_funcs
 
     def execute(self, input_df):
+        """
+        :param input_df: A pandas DataFrame that needs to be processed.
+        :return: A new DataFrame containing the aggregated results.
+        """
         # Set input DataFrame
         self.input_df = input_df.copy()
 
