@@ -2,6 +2,7 @@ import pandas as pd
 
 # Import necessary classes for the data pipeline and stages
 from xreport.pipeline import DataPipeline
+from xreport.stages.drop_duplicate_stage import DropDuplicateStage
 from xreport.stages.expand_stage import ExpandStage
 from xreport.stages.filter_stage import FilterStage
 from xreport.stages.map_stage import MapStage
@@ -40,11 +41,11 @@ def age_category(age):
 
 # Sample DataFrame creation with names, ages, sexes, cities, and salaries
 data = pd.DataFrame({
-    'name': ['Alice', 'Bob', 'Charlie', 'David', 'Nobody'],
-    'age': [25, 30, 35, 40, 31],
-    'sex': ['F', 'M', 'U', 'X', 'Y'],
-    'city': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Kreta'],
-    'salary': [70000, 80000, 75000, 90000, 60000]  # Adding salary column
+    'name': ['Alice', 'Bob', 'Charlie', 'David', 'Nobody', 'Alice'],
+    'age': [25, 30, 35, 40, 31, 25],
+    'sex': ['F', 'M', 'U', 'X', 'Y', 'F'],
+    'city': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Kreta', 'New York'],
+    'salary': [70000, 80000, 75000, 90000, 60000, 70000]  # Adding salary column
 })
 
 # Define the DataPipeline instance with a source stage containing the sample data
@@ -55,6 +56,15 @@ pipeline = DataPipeline(
         "Source Data",
         "Initial DataFrame input",
         data
+    )
+)
+
+# Drop duplicates by name and age
+pipeline.add_stage(
+    DropDuplicateStage(
+        'Drop Duplicate by Age and Name',
+        'Keep distinct by age and Name',
+        ['name', 'age']
     )
 )
 

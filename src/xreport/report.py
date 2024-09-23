@@ -39,7 +39,7 @@ def generate_html_report(pipeline):
 
         <ion-grid>
             <ion-row>
-                <ion-text>
+                <ion-text class="ion-padding">
                     <p style="margin-bottom:0">{{pipeline.description}}</p>
                 </ion-text>
             </ion-row>
@@ -87,6 +87,11 @@ def generate_html_report(pipeline):
                 name: 'GroupBy',
                 icon: "grid",
                 color: 'warning'
+            },
+            'DropDuplicateStage': {
+                name: 'DropDuplicate',
+                icon: "pricetags-outline",
+                color: 'danger'
             }
         }
 
@@ -159,13 +164,15 @@ def generate_html_report(pipeline):
         for (const row of outputData.data) {
             // Check if the row has any non-empty values
             if (Object.values(row).some(value => value !== "")) {
-                if (row['all_conditions'] === 'False' && stage.stage_type === 'FilterStage') {
+                if ((row['all_conditions'] === 'False' && stage.stage_type === 'FilterStage') || 
+                    (row['kept'] === 'False' && stage.stage_type === 'DropDuplicateStage')) {
                     tableHtml += `<tr style="background: #ad000d17">`;
                 } else {
                     tableHtml += `<tr>`;
                 }
                 for (const key in row) {
-                    if (key === 'all_conditions' && stage.stage_type === 'FilterStage') {
+                    if ((key === 'all_conditions' && stage.stage_type === 'FilterStage') || 
+                        (key === 'kept' && stage.stage_type === 'DropDuplicateStage')) {
                         let check = `<ion-chip color="danger">
                   <ion-icon name="close-circle-outline"></ion-icon>
                   <ion-label>False</ion-label>
