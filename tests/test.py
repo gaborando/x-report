@@ -50,9 +50,11 @@ data = pd.DataFrame({
 
 # Define the DataPipeline instance with a source stage containing the sample data
 pipeline = DataPipeline(
+    'sample_pipeline',
     'Sample Pipeline',
     'This is a sample data pipeline',
     SourceStage(
+        'source_data',
         "Source Data",
         "Initial DataFrame input",
         data
@@ -62,6 +64,7 @@ pipeline = DataPipeline(
 # Drop duplicates by name and age
 pipeline.add_stage(
     DropDuplicateStage(
+    'drop_duplicate',
         'Drop Duplicate by Age and Name',
         'Keep distinct by age and Name',
         ['name', 'age']
@@ -71,6 +74,7 @@ pipeline.add_stage(
 # Add a filtering stage to retain only rows where age is between 30 and 35
 pipeline.add_stage(
     FilterStage(
+    'age_filter',
         'Age Filter',
         'Filter age between 30 and 35 years old', {
             'age_gt_30_check': lambda df: df['age'] >= 30,
@@ -82,6 +86,7 @@ pipeline.add_stage(
 # Add a projection stage to select only specific columns
 pipeline.add_stage(
     ProjectionStage(
+    'select_name_city',
         'Select Name and City',
         'Keep only name and city columns',
         ['name', 'city', 'age', 'salary']  # Include salary in projection
@@ -91,6 +96,7 @@ pipeline.add_stage(
 # Add a renaming stage to change column names for clarity
 pipeline.add_stage(
     RenameStage(
+    'rename_columns',
         "Rename Name Column",
         "Renaming Name to Full Name",
         {'name': 'Full Name', 'city': 'City', 'age': 'Age', 'salary': 'Salary'}
@@ -100,6 +106,7 @@ pipeline.add_stage(
 # Add an expand stage to include state information based on city
 pipeline.add_stage(
     ExpandStage(
+    'expand_state',
         "Expand State Information",
         "Adding State information for each City",
         join_columns=['City'],
@@ -109,6 +116,7 @@ pipeline.add_stage(
 
 # Add a filtering stage to drop rows with unknown states
 pipeline.add_stage(FilterStage(
+    'drop_unknown_state',
     'Drop Unknown State',
     'Filter only if state is found', {
         'state_ok': lambda df: df['State'].notnull() & (df['State'] != ''),
@@ -118,6 +126,7 @@ pipeline.add_stage(FilterStage(
 # Add a mapping stage to categorize cities and ages
 pipeline.add_stage(
     MapStage(
+    'map_city_to_country_and_age_category',
         "Map City to Country and Age Category",
         "Mapping City names to their countries and categorizing ages",
         {'City': map_city_to_country, 'Age': age_category}
@@ -127,6 +136,7 @@ pipeline.add_stage(
 # Add a group by stage to calculate the average salary for each unique salary value
 pipeline.add_stage(
     GroupByStage(
+    'group_by_salary',
         "Group By Salary",
         "Calculating average salary for each unique salary",
         group_by_columns=['City','Age'],  # Column to group by

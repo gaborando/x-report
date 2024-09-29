@@ -4,33 +4,14 @@ from xreport.stages.base_stage import BaseStage
 
 
 class ProjectionStage(BaseStage):
-    """
-        ProjectionStage
-
-        A class that represents a projection stage for data processing which selects
-        specific columns from a DataFrame.
-
-    Attributes
-    ----------
-    selected_columns : list
-        A list of column names to be selected from the input DataFrame.
-
-    Methods
-    -------
-    __init__(name, description, selected_columns)
-        Initializes the ProjectionStage with a name, description, and selected columns.
-
-    _process_stage(df)
-        Processes the input DataFrame by selecting and discarding specified columns,
-        and then concatenates the result to create a computation DataFrame.
-    """
-    def __init__(self, name, description, selected_columns):
+    def __init__(self, stage_id, name, description, selected_columns):
         """
-        :param name: The name of the dataset or entity.
-        :param description: A brief description of the dataset or entity.
-        :param selected_columns: A list of column names that are selected for processing or analysis.
+        :param stage_id: The unique identifier for the stage.
+        :param name: The name of the stage.
+        :param description: A brief description of the stage.
+        :param selected_columns: The columns that have been selected for this stage.
         """
-        super().__init__(name, description)
+        super().__init__(stage_id, name, description)
         self.selected_columns = selected_columns
 
     def _process_stage(self, df):

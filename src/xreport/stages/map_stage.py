@@ -4,24 +4,14 @@ from xreport.stages.base_stage import BaseStage
 
 
 class MapStage(BaseStage):
-    """
-        MapStage class inherits from BaseStage and applies a set of mappings to specified columns in the input DataFrame.
-
-        Methods
-        -------
-        __init__(name, description, mappings)
-            Initializes the MapStage with a name, description, and a dictionary of mappings.
-
-        _process_stage(input_df)
-            Applies the column mappings to the input DataFrame and logs the transformations in a computation DataFrame.
-    """
-    def __init__(self, name, description, mappings):
+    def __init__(self, stage_id, name, description, mappings):
         """
-        :param name: A string representing the name of the object.
-        :param description: A string giving a brief description of the object.
-        :param mappings: A dictionary containing column names as keys and their corresponding mapping functions as values.
+        :param stage_id: The unique identifier for the stage.
+        :param name: The name of the stage.
+        :param description: A brief description of the stage.
+        :param mappings: A dictionary of column names and their mapping functions.
         """
-        super().__init__(name, description)
+        super().__init__(stage_id, name, description)
         self.mappings = mappings  # A dictionary of column names and their mapping functions
 
     def _process_stage(self, input_df):

@@ -4,31 +4,14 @@ from xreport.stages.base_stage import BaseStage
 
 
 class FilterStage(BaseStage):
-    """
-    Class representing a filter stage in a data processing pipeline.
-
-    class FilterStage(BaseStage):
-
-        def __init__(self, name, description, conditions):
-            Initialize the FilterStage with a name, description, and filtering conditions.
-
-            :param name: The name of the filter stage.
-            :param description: A brief description of what the filter stage does.
-            :param conditions: A dictionary where keys are condition names and values are lambda functions that apply the condition on a DataFrame.
-
-        def _process_stage(self, df):
-            Process the given DataFrame through all the defined conditions, filter the data, and save the results.
-
-            :param df: The input DataFrame to process.
-            :return: A DataFrame containing only rows that meet all the conditions.
-    """
-    def __init__(self, name, description, conditions):
+    def __init__(self, stage_id, name, description, conditions):
         """
-        :param name: The name of the instance.
-        :param description: A brief description of the instance.
+        :param stage_id: The unique identifier for the stage.
+        :param name: The name of the stage.
+        :param description: A description of the stage.
         :param conditions: A dictionary containing condition names as keys and lambda functions as values.
         """
-        super().__init__(name, description)
+        super().__init__(stage_id, name, description)
         self.conditions = conditions  # Should be a dictionary with condition names and lambdas
 
     def _process_stage(self, df):

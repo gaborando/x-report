@@ -2,28 +2,16 @@ from xreport.stages.base_stage import BaseStage
 
 
 class ExpandStage(BaseStage):
-    """
-    ExpandStage is a processing stage in a data pipeline, responsible for applying a lambda function on a DataFrame column and then performing a join operation.
-
-    :param name: The name of the stage.
-    :type name: str
-    :param description: Description of the stage.
-    :type description: str
-    :param join_columns: List of columns to join on.
-    :type join_columns: list[str]
-    :param lambda_func: A lambda function to be applied on the DataFrame.
-    :type lambda_func: function
-    :param join_mode: Mode of the join operation (default is 'left').
-    :type join_mode: str
-
-    _method _process_stage(df)
-    :param df: Input DataFrame.
-    :type df: pandas.DataFrame
-    :return: Output DataFrame after applying lambda function and performing the join.
-    :rtype: pandas.DataFrame
-    """
-    def __init__(self, name, description, join_columns, lambda_func, join_mode='left'):
-        super().__init__(name, description)
+    def __init__(self, stage_id, name, description, join_columns, lambda_func, join_mode='left'):
+        """
+        :param stage_id: Unique identifier for the stage.
+        :param name: Name of the stage.
+        :param description: Description of what the stage does.
+        :param join_columns: Columns on which the join operations should be performed.
+        :param lambda_func: A lambda function to apply during the join operation.
+        :param join_mode: Specifies the type of join operation (default is 'left').
+        """
+        super().__init__(stage_id, name, description)
         self.join_columns = join_columns
         self.lambda_func = lambda_func
         self.join_mode = join_mode

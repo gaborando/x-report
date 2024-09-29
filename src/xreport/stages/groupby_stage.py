@@ -2,36 +2,15 @@ import pandas as pd
 from .base_stage import BaseStage
 
 class GroupByStage(BaseStage):
-    """
-    class GroupByStage(BaseStage):
-
-    :param name: Stage name
-    :param description: Stage description
-    :param group_by_columns: List of columns to group by
-    :param agg_funcs: Dictionary where the key is the column name and the value is the aggregation function
-
-    def execute(self, input_df):
-
-    :param input_df: DataFrame to be processed
-
-    :returns: Aggregated DataFrame after performing group by and aggregation operations
-
-    This method performs the following steps:
-    1. Sets the input DataFrame.
-    2. Groups the input DataFrame by the specified columns.
-    3. Aggregates the grouped data using the specified aggregation functions.
-    4. Sorts the input DataFrame by the group-by columns.
-    5. Constructs a computation DataFrame by appending aggregation rows to each group's data.
-    6. Sets the computation and output DataFrames.
-    """
-    def __init__(self, name, description, group_by_columns, agg_funcs):
+    def __init__(self, stage_id, name, description, group_by_columns, agg_funcs):
         """
-        :param name: Stage name
-        :param description: Stage description
-        :param group_by_columns: List of columns to group by
-        :param agg_funcs: Dictionary where the key is the column name and the value is the aggregation function
+        :param stage_id: Unique identifier for the stage
+        :param name: Name of the stage
+        :param description: Description of the stage
+        :param group_by_columns: Columns used for grouping the data in this stage
+        :param agg_funcs: Aggregation functions to be applied on the grouped data
         """
-        super().__init__(name, description)
+        super().__init__(stage_id, name, description)
         self.group_by_columns = group_by_columns
         self.agg_funcs = agg_funcs
 

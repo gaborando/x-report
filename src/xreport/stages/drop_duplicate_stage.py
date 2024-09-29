@@ -1,19 +1,17 @@
+from pandas._typing import DropKeep
 from xreport.stages.base_stage import BaseStage
 
 class DropDuplicateStage(BaseStage):
-    """
-        class DropDuplicateStage(BaseStage):
 
-    def __init__(self, name, description, subset=None, keep='first'):
+    def __init__(self, stage_id, name, description, subset=None, keep: DropKeep='first'):
         """
-    def __init__(self, name, description, subset=None, keep='first'):
+        :param stage_id: Identifier for the stage.
+        :param name: Name of the stage.
+        :param description: Description of the stage.
+        :param subset: Optional parameter to specify a subset. Default is None.
+        :param keep: Strategy to decide which duplicates to keep. Default is 'first'.
         """
-        :param name: Name of the instance.
-        :param description: A brief description of the instance.
-        :param subset: Optional parameter to specify a subset. Defaults to None.
-        :param keep: Parameter to specify which items to keep. Defaults to 'first'.
-        """
-        super().__init__(name, description)
+        super().__init__(stage_id, name, description)
         self.subset = subset
         self.keep = keep
 
