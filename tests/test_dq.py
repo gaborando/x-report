@@ -53,10 +53,8 @@ pipeline = DataPipeline(
 row_checks = [
     RowLevelCheck(
         name='Salary Over 1 Billion',
-        description='Check if salary exceeds 1 billion',
         check_func=lambda row: row['Salary'] <= 1_000_000_000,
-        warning_func=lambda row: f"Salary too high: {row['Salary']}",
-        resolution_func=lambda row: "Reduce salary below 1 billion"
+        warning_resolution=lambda row: (f"Salary too high: {row['Salary']}","Reduce salary below 1 billion")
     )
 ]
 

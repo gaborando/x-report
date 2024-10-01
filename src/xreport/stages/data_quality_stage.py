@@ -4,12 +4,10 @@ from xreport.stages.base_stage import BaseStage
 
 
 class RowLevelCheck:
-    def __init__(self, name, description, check_func, warning_func, resolution_func):
+    def __init__(self, name, check_func, warning_resolution):
         self.name = name
-        self.description = description
         self.check_func = check_func
-        self.warning_func = warning_func
-        self.resolution_func = resolution_func
+        self.warning_resolution = warning_resolution
 
 class DataFrameLevelCheck:
     def __init__(self, name, check_func, warning_resolution):
@@ -31,8 +29,7 @@ class DataQualityStage(BaseStage):
         for check in self.row_checks:
             failed_rows = input_df[~input_df.apply(check.check_func, axis=1)]
             for index, row in failed_rows.iterrows():
-                warning_msg = check.warning_func(row)
-                resolution_msg = check.resolution_func(row)
+                warning_msg, resolution_msg = check.warning_resolution(row)
                 computation.append({
                     "Name": check.name,
                     "Warning Message": warning_msg,
