@@ -1,7 +1,4 @@
-from jinja2 import Template
 
-def generate_html_report(pipeline):
-    template = Template("""
   <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,10 +25,10 @@ def generate_html_report(pipeline):
     <ion-header>
         <ion-toolbar>
             <ion-title>
-                {{pipeline.name}} 
+                Data Quality Pipeline 
             </ion-title>
             <ion-title slot="end">
-                {% if pipeline.error %} <ion-chip color="danger">Failed</ion-chip> {% else %} <ion-chip color="success">Success</ion-chip> {% endif %}&nbsp;{{pipeline.timestamp}}
+                 <ion-chip color="success">Success</ion-chip> &nbsp;2024-10-01 15:09:11
             </ion-title>
         </ion-toolbar>
     </ion-header>
@@ -40,7 +37,7 @@ def generate_html_report(pipeline):
         <ion-grid>
             <ion-row>
                 <ion-text class="ion-padding">
-                    <p style="margin-bottom:0">{{pipeline.description}}</p>
+                    <p style="margin-bottom:0">A pipeline to check data quality and transformations.</p>
                 </ion-text>
             </ion-row>
             <ion-row id="container"></ion-row>
@@ -249,7 +246,7 @@ def generate_html_report(pipeline):
     }
 
 
-    const data = {{pipeline|tojson|safe}}
+    const data = {"description": "A pipeline to check data quality and transformations.", "error": null, "name": "Data Quality Pipeline", "pipeline": [{"computation_data": "\r\n", "description": "Initial DataFrame input", "execution_time": 0.0, "input_shape": [0, 0], "output_data": "\"Name\",\"Surname\",\"Salary\",\"Country\"\r\n\"Alice\",\"Smith\",50000,\"USA\"\r\n\"Bob\",\"Jones\",1000000000,\"Canada\"\r\n\"Charlie\",\"Brown\",2000000000,\"USA\"\r\n\"Alice\",\"Smith\",30000,\"Canada\"\r\n\"Bob\",\"Jones\",4000,\"EU\"\r\n", "output_shape": [5, 4], "stage_id": "id0", "stage_name": "Source Data", "stage_number": 1, "stage_type": "SourceStage", "status": "SUCCESS"}, {"computation_data": "\"Name\",\"Warning Message\",\"Resolution\"\r\n\"Salary Over 1 Billion\",\"Salary too high: 2000000000\",\"Reduce salary below 1 billion\"\r\n\"Duplicate Name-Surname\",\"Duplicate Name-Surname, Alice + Smith is duplicated on lines: 0, 3\",\"Remove duplicate Name-Surname pairs\"\r\n\"Duplicate Name-Surname\",\"Duplicate Name-Surname, Bob + Jones is duplicated on lines: 1, 4\",\"Remove duplicate Name-Surname pairs\"\r\n", "description": "Checking data quality for salary, duplicates, and country count", "execution_time": 0.003010272979736328, "input_shape": [5, 4], "output_data": "\"Name\",\"Surname\",\"Salary\",\"Country\"\r\n\"Alice\",\"Smith\",50000,\"USA\"\r\n\"Bob\",\"Jones\",1000000000,\"Canada\"\r\n\"Charlie\",\"Brown\",2000000000,\"USA\"\r\n\"Alice\",\"Smith\",30000,\"Canada\"\r\n\"Bob\",\"Jones\",4000,\"EU\"\r\n", "output_shape": [5, 4], "stage_id": "id2", "stage_name": "Data Quality Check", "stage_number": 2, "stage_type": "DataQualityStage", "status": "SUCCESS"}], "pipeline_id": "id1", "timestamp": "2024-10-01 15:09:11"}
     console.log(data)
 
     document.getElementById("container").innerHTML = data.pipeline.map((stage) =>
@@ -328,7 +325,4 @@ ${errorBreak(stage)}
 </script>
 </html>
 
-    """)
-
-    # Render the template with the pipeline data
-    return template.render(pipeline=pipeline)
+    
