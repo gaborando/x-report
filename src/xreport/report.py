@@ -92,6 +92,11 @@ def generate_html_report(pipeline):
                 name: 'DropDuplicate',
                 icon: "pricetags-outline",
                 color: 'danger'
+            },
+            'AddColumnStage': {
+                name: 'AddColumn',
+                icon: "add-circle-outline",
+                color: 'success'
             }
         }
 
@@ -288,10 +293,10 @@ ${errorBreak(stage)}
         <ion-label>Output</ion-label>
       </ion-segment-button>
     </ion-segment>
-      <div id="stage_modal_segment_${stage.stage_number}_content_output" style="display: ${stage.stage_type === 'SourceStage' ? 'block' : 'none'};">
+      <div id="stage_modal_segment_${stage.stage_number}_content_output" style="display: ${stage.stage_type === 'SourceStage' ? 'block' : 'none'};  overflow: auto; height: 70vh; width: 100%;">
             ${generateOutputTableHtml(stage)}
       </div>
-      <div id="stage_modal_segment_${stage.stage_number}_content_computed" style="display: ${stage.stage_type !== 'SourceStage' ? 'block' : 'none'};">
+      <div id="stage_modal_segment_${stage.stage_number}_content_computed" style="display: ${stage.stage_type !== 'SourceStage' ? 'block' : 'none'}; overflow: auto; height: 70vh; width: 100%;">
             ${generateComputeTableHtml(stage)}
       </div>
 

@@ -83,6 +83,7 @@ class DataPipeline:
                 print(f"Executing stage {index} - {stage.name} ({stage.stage_id})")
                 if stage.input_df is not None:
                     print(f"Input shape: {stage.input_df.shape}")
+                    print(f"Input columns: {list(stage.input_df.columns)}")
             if self.error is None:
                 try:
                     current_df = stage.execute(current_df)
@@ -101,6 +102,7 @@ class DataPipeline:
             if self.debug:
                 print(f"Stage {index} - {stage.name} ({stage.stage_id}) executed in {execution_time} seconds with status {status}")
                 print(f"Output shape: {stage.output_df.shape}")
+                print(f"Output columns: {list(stage.output_df.columns)}")
 
             self.report.append({
                 'stage_number': index + 1,  # Stage number (1-based index)
