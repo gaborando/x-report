@@ -28,9 +28,6 @@ class GroupByStage(BaseStage):
         # Store aggregation results
         aggregation_result = grouped.agg(self.agg_funcs).reset_index()
 
-        # Sorting by the group-by columns
-        sorted_df = self.input_df.sort_values(by=self.group_by_columns)
-
         # Build the computation DataFrame
         computation_list = []
         for group_values, group_data in grouped:
@@ -51,7 +48,10 @@ class GroupByStage(BaseStage):
             computation_list.append(agg_row)
 
         # Concatenate the sorted data with the aggregation summary at the end of each group
-        computation_df = pd.concat(computation_list)
+        if len(computation_list) > 0:
+            computation_df = pd.concat(computation_list)
+        else:
+            computation_df = self.input_df.sort_values(by=self.group_by_columns)
 
         # Set the computation DataFrame
         self.computation_df = computation_df
