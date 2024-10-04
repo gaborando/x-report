@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="x-report",
-    version="0.1.13",
+    version="0.1.14",
     license="MIT",
     description="Create a pipeline to generate reports with a visual description of each extraction and transformation phase.",
     long_description=open('README.md').read(),

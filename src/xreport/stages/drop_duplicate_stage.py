@@ -1,9 +1,8 @@
-from pandas._typing import DropKeep
 from xreport.stages.base_stage import BaseStage
 
 class DropDuplicateStage(BaseStage):
 
-    def __init__(self, stage_id, name, description, subset=None, keep: DropKeep='first'):
+    def __init__(self, stage_id, name, description, subset=None, keep='first'):
         """
         :param stage_id: Identifier for the stage.
         :param name: Name of the stage.
