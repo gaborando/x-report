@@ -25,6 +25,14 @@ class DataQualityStage(BaseStage):
     def execute(self, input_df):
         self.input_df = input_df.copy()
         computation = []
+
+        # Check if the input DataFrame is empty
+        if self.input_df.empty:
+            # If empty, initialize computation_df and output_df as empty DataFrames with the expected columns
+            self.computation_df = pd.DataFrame(columns=["Name", "Warning Message", "Resolution"])
+            self.output_df = pd.DataFrame(columns=self.input_df.columns)
+            return self.output_df
+
         # Execute row-level checks
         for check in self.row_checks:
             failed_rows = input_df[~input_df.apply(check.check_func, axis=1)]

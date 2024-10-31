@@ -19,6 +19,14 @@ class MapStage(BaseStage):
         :param input_df: The input DataFrame containing the data to be processed.
         :return: A DataFrame where specified columns have been transformed using their associated mapping functions and an additional computation DataFrame with previous column values is concatenated.
         """
+
+        # Check if the input DataFrame is empty
+        if input_df.empty:
+            # Initialize empty computation and output DataFrames with expected structure
+            self.computation_df = pd.DataFrame(columns=input_df.columns.tolist() + ["#"] +[f"{col} (Prev)" for col in self.mappings.keys()])
+            self.output_df = pd.DataFrame(columns=input_df.columns)
+            return self.output_df
+
         self.computation_df = pd.DataFrame()
         df = input_df.copy()
         # Initialize computation DataFrame

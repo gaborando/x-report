@@ -17,6 +17,14 @@ class AddColumnStage(BaseStage):
     def execute(self, input_df):
         self.input_df = input_df.copy()
 
+        # Check if the input DataFrame is empty
+        if self.input_df.empty:
+            # Initialize empty computation and output DataFrames with all columns from input + new columns
+            self.computation_df = pd.DataFrame(
+                columns=self.input_df.columns.tolist() + ['#'] + list(self.new_columns_map.keys()))
+            self.output_df = pd.DataFrame(columns=self.input_df.columns.tolist() + list(self.new_columns_map.keys()))
+            return self.output_df
+
         # Create computation DataFrame that contains all original columns
         self.computation_df = self.input_df.copy()
         self.computation_df['#'] = range(1, len(self.input_df) + 1)  # Row numbers

@@ -21,6 +21,13 @@ class FilterStage(BaseStage):
         """
         self.computation_df = df.copy()  # Start with the input DataFrame
 
+        # Check if df is empty or if there are no conditions to apply
+        if self.computation_df.empty or not self.conditions:
+            self.computation_df = pd.DataFrame(
+                columns=self.input_df.columns.tolist() + ['#', 'all_conditions'])
+            self.output_df = df.copy()
+            return self.output_df
+
         # Apply each condition and create columns in computation_df
         self.computation_df['#'] = pd.DataFrame({'#': ['#'] * len(df)})
         for cond_name, cond_func in self.conditions.items():

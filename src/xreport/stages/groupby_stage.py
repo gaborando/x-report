@@ -22,6 +22,13 @@ class GroupByStage(BaseStage):
         # Set input DataFrame
         self.input_df = input_df.copy()
 
+        # Check if input DataFrame is empty
+        if self.input_df.empty:
+            # Initialize empty DataFrames with the appropriate columns
+            self.output_df = pd.DataFrame(columns=self.group_by_columns + list(self.agg_funcs.keys()))
+            self.computation_df = pd.DataFrame(columns=self.input_df.columns)
+            return self.output_df
+
         # Perform the group by operation
         grouped = self.input_df.groupby(self.group_by_columns)
 

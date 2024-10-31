@@ -1,4 +1,5 @@
 from xreport.stages.base_stage import BaseStage
+import pandas as pd
 
 class DropDuplicateStage(BaseStage):
 
@@ -20,6 +21,13 @@ class DropDuplicateStage(BaseStage):
         :return: A DataFrame with duplicates removed based on specified subset and keep criteria.
         """
         self.input_df = input_df.copy()
+
+        # Check if input_df is empty or if subset columns are missing
+        if self.input_df.empty or not all(col in self.input_df.columns for col in self.subset):
+            # If empty or subset columns missing, initialize empty output and computation DataFrames
+            self.computation_df = pd.DataFrame(columns=self.input_df.columns.tolist() + ['#', 'kept'])
+            self.output_df = pd.DataFrame(columns=self.input_df.columns)
+            return self.output_df
 
         # Identify which rows are kept
         duplicates_mask = self.input_df.duplicated(subset=self.subset, keep=self.keep)
